@@ -1,4 +1,4 @@
-/* Home page: responsive video, exhibition carousel . */
+/* Home page: responsive video and exhibition carousel. */
 (() => {
   const video = document.querySelector('.hero-video');
   const videoToggle = document.querySelector('.video-toggle');
