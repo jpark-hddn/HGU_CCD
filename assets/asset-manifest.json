@@ -1,0 +1,294 @@
+{
+  "faculty": [
+    {
+      "source": "js_lee_bw_torso 2.png",
+      "output": "faculty-01.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 9658654
+    },
+    {
+      "source": "js_lee_bw_torso 3.png",
+      "output": "faculty-02.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 11779434
+    },
+    {
+      "source": "js_lee_bw_torso 4.png",
+      "output": "faculty-03.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 7733326
+    },
+    {
+      "source": "js_lee_bw_torso 5.png",
+      "output": "faculty-04.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 11127774
+    },
+    {
+      "source": "js_lee_bw_torso 6.png",
+      "output": "faculty-05.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 12255994
+    },
+    {
+      "source": "js_lee_bw_torso 7.png",
+      "output": "faculty-06.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 15681236
+    },
+    {
+      "source": "js_lee_bw_torso 8.png",
+      "output": "faculty-07.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 5411120
+    },
+    {
+      "source": "js_lee_bw_torso 9.png",
+      "output": "faculty-08.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 5537498
+    },
+    {
+      "source": "js_lee_bw_torso 10.png",
+      "output": "faculty-09.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 11271716
+    },
+    {
+      "source": "js_lee_bw_torso 11.png",
+      "output": "faculty-10.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 11186354
+    },
+    {
+      "source": "js_lee_bw_torso 12.png",
+      "output": "faculty-11.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 9027551
+    },
+    {
+      "source": "js_lee_bw_torso 13.png",
+      "output": "faculty-12.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 3698909
+    },
+    {
+      "source": "js_lee_bw_torso 14.png",
+      "output": "faculty-13.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 13021984
+    },
+    {
+      "source": "js_lee_bw_torso 15.png",
+      "output": "faculty-14.png",
+      "width": 3713,
+      "height": 4639,
+      "mode": "RGBA",
+      "bytes": 11301116
+    },
+    {
+      "source": "js_lee_bw_torso 16.png",
+      "output": "faculty-15.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 11915595
+    },
+    {
+      "source": "js_lee_bw_torso 17.png",
+      "output": "faculty-16.png",
+      "width": 3722,
+      "height": 4651,
+      "mode": "RGBA",
+      "bytes": 13131197
+    }
+  ],
+  "faculty_screenshot_order": [
+    "faculty-02.png",
+    "faculty-03.png",
+    "faculty-04.png",
+    "faculty-05.png",
+    "faculty-09.png",
+    "faculty-08.png",
+    "faculty-07.png",
+    "faculty-06.png",
+    "faculty-10.png",
+    "faculty-11.png",
+    "faculty-12.png",
+    "faculty-13.png",
+    "faculty-01.png",
+    "faculty-15.png",
+    "faculty-16.png",
+    "faculty-14.png"
+  ],
+  "video": {
+    "source": "Graphic Design_02_22100307_박지우.mov",
+    "source_dimensions": [
+      592,
+      848
+    ],
+    "duration_seconds": 5.7666666667,
+    "fps": 24,
+    "audio": false,
+    "desktop": {
+      "path": "video/hero.mp4",
+      "dimensions": [
+        848,
+        592
+      ],
+      "rotation": "90 degrees clockwise",
+      "codec": "H.264",
+      "faststart": true
+    },
+    "mobile": {
+      "path": "video/hero-mobile.mp4",
+      "dimensions": [
+        592,
+        848
+      ],
+      "rotation": "none",
+      "codec": "H.264",
+      "faststart": true
+    }
+  },
+  "images": {
+    "campus-network.png": {
+      "source": "1Untitled-1 2.png",
+      "dimensions": [
+        4224,
+        2411
+      ],
+      "modifications": "none"
+    },
+    "ccd-logo.png": {
+      "source": "로고.png",
+      "dimensions": [
+        215,
+        194
+      ],
+      "modifications": "none",
+      "alpha": true,
+      "display": "Original white transparent logo in header; CSS brightness(0) in footer."
+    }
+  },
+  "fonts": [
+    {
+      "path": "fonts/pp-telegraf-regular.otf",
+      "source": "user-supplied telegraf-font-family folder"
+    },
+    {
+      "path": "fonts/pretendard-regular.otf",
+      "source": "installed user font"
+    },
+    {
+      "path": "fonts/pretendard-medium.otf",
+      "source": "installed user font"
+    },
+    {
+      "path": "fonts/pretendard-semibold.otf",
+      "source": "installed user font"
+    },
+    {
+      "path": "fonts/nanum-myeongjo-regular.otf",
+      "source": "installed user font"
+    },
+    {
+      "path": "fonts/helvetica-neue-medium.ttf",
+      "source": "installed system HelveticaNeue.ttc face 10",
+      "verified_postscript_name": "HelveticaNeue-Medium"
+    }
+  ],
+  "exhibitions": [
+    {
+      "year": 2026,
+      "path": "images/exhibition-2026.png",
+      "source": "user-supplied original"
+    },
+    {
+      "year": 2025,
+      "path": "images/exhibition-2025.png",
+      "source": "user-supplied original"
+    },
+    {
+      "year": 2024,
+      "path": "images/exhibition-2024.png",
+      "source": "user-supplied original"
+    },
+    {
+      "year": 2023,
+      "path": "images/exhibition-2023.png",
+      "source": "user-supplied original"
+    },
+    {
+      "year": 2022,
+      "path": "images/exhibition-2022.png",
+      "source": "shared Figma image asset"
+    },
+    {
+      "year": 2021,
+      "path": "images/exhibition-2021.png",
+      "source": "shared Figma image asset"
+    },
+    {
+      "year": 2020,
+      "path": "images/exhibition-2020.png",
+      "source": "shared Figma image asset"
+    },
+    {
+      "year": 2019,
+      "path": "images/exhibition-2019.png",
+      "source": "shared Figma image asset"
+    },
+    {
+      "year": 2018,
+      "path": "images/exhibition-2018.png",
+      "source": "shared Figma image asset"
+    },
+    {
+      "year": 2017,
+      "path": "images/exhibition-2017.png",
+      "source": "shared Figma image asset"
+    },
+    {
+      "year": 2016,
+      "path": "images/exhibition-2016.png",
+      "source": "shared Figma image asset"
+    },
+    {
+      "year": 2015,
+      "path": "images/exhibition-2015.png",
+      "source": "shared Figma image asset"
+    }
+  ],
+  "mobile_exhibition_years": [
+    2026,
+    2025,
+    2020
+  ]
+}

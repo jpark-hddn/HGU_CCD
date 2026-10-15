@@ -1,0 +1,98 @@
+/* Home page only. Figma PC: 89:5209; mobile: 103:2036. */
+.hero { position: relative; height: calc(582 * var(--u) + 124 * var(--t)); overflow: hidden; background: #000; }
+.hero-video { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+.video-toggle { position: absolute; right: calc(16 * var(--u)); bottom: calc(16 * var(--u)); padding: 8px 12px; color: white; background: #000b; font-size: 12px; opacity: 0; transition: opacity .15s; }
+.hero:hover .video-toggle, .video-toggle:focus-visible { opacity: 1; }
+.about-section { display: flex; justify-content: space-between; align-items: flex-start; gap: calc(100 * var(--u)); padding-top: calc(40 * var(--u) + 20 * var(--t)); padding-bottom: calc(90 * var(--u) + 10 * var(--t)); min-height: calc(853 * var(--u) + 107 * var(--t)); background: #000; color: #fff; }
+.about-section h1 { width: 45.3452%; font-size: calc(36 * var(--u) + 28 * var(--t)); line-height: 1.2; letter-spacing: -.02em; }
+.about-title-underlined { text-decoration: underline; text-underline-position: from-font; text-decoration-thickness: from-font; }
+.about-copy { width: 33.0589%; display: flex; flex-direction: column; gap: calc(24 * var(--u)); }
+.about-copy-en { font-size: calc(16 * var(--u) + 8 * var(--t)); line-height: 1.2; letter-spacing: -.02em; }
+.about-copy-ko { font-family: "Pretendard", sans-serif; font-size: calc(13 * var(--u) + 4 * var(--t)); line-height: 1.6; letter-spacing: -.02em; }
+.academic-sections { padding-top: calc(40 * var(--u) + 20 * var(--t)); padding-bottom: calc(40 * var(--u) + 60 * var(--t)); display: flex; flex-direction: column; gap: calc(80 * var(--u) + 20 * var(--t)); }
+.curriculum-section { display: flex; flex-direction: column; gap: calc(48 * var(--u) - 24 * var(--t)); }
+.curriculum-downloads { display: flex; gap: calc(48 * var(--u)); font: 500 calc(14 * var(--u) + 2 * var(--t))/1.4 "Pretendard", sans-serif; color: var(--accent); }
+.curriculum-downloads a { display: flex; align-items: center; gap: calc(6 * var(--u) + 2 * var(--t)); white-space: nowrap; }
+.download-icon { display: block; width: calc(14.5 * var(--u) + 3.346 * var(--t)); height: calc(13 * var(--u) + 3 * var(--t)); background: url("../../assets/icons/download.svg") center/contain no-repeat; }
+.desktop-curriculum { display: flex; flex-direction: column; gap: calc(24 * var(--u)); }
+.curriculum-track { display: flex; flex-direction: column; gap: calc(20 * var(--u)); }
+.curriculum-track > h3 { font: 500 calc(20 * var(--u))/1.4 "Pretendard", sans-serif; padding-bottom: calc(4 * var(--u)); background: linear-gradient(var(--rule),var(--rule)) left bottom/100% 1px no-repeat; }
+.course-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: calc(24 * var(--u)); }
+.course-column { display: flex; flex-direction: column; gap: calc(32 * var(--u)); }
+.course-group h4 { font: 600 calc(18 * var(--u))/1.4 "Pretendard", sans-serif; margin-bottom: calc(4 * var(--u)); }
+.course-group ul { display: flex; flex-direction: column; gap: calc(4 * var(--u)); }
+.course-group li { font-size: calc(15 * var(--u)); line-height: 1.4; }
+.course-group .course-item--large { font-size: calc(16 * var(--u)); }
+.mobile-curriculum { display: none; }
+.faculties-section { display: flex; flex-direction: column; gap: calc(8 * var(--u) + 16 * var(--t)); }
+.faculty-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: calc(24 * var(--u)) calc(8 * var(--u) + 16 * var(--t)); }
+.faculty-card { display: flex; flex-direction: column; gap: calc(8 * var(--u) + 8 * var(--t)); min-width: 0; min-height: calc(294.169 * var(--u) + 296.831 * var(--t)); }
+.faculty-card:nth-child(n+9):nth-child(-n+12) { min-height: calc(294.169 * var(--u) + 297.831 * var(--t)); }
+.faculty-photo { width: 100%; aspect-ratio: 1122/1402; overflow: hidden; }
+.faculty-photo img { width: 100%; height: 100%; object-fit: cover; }
+.faculty-caption { display: flex; flex-direction: column; gap: calc(8 * var(--u)); }
+.faculty-names { display: flex; flex-direction: column; gap: calc(4 * var(--u)); }
+.faculty-names h3 { font-size: calc(16 * var(--u) + 8 * var(--t)); line-height: 1; }
+.faculty-name-ko { font: 500 calc(14 * var(--u) + 6 * var(--t))/1.2 "Pretendard", sans-serif; }
+.faculty-role { font: 500 calc(12 * var(--u) + 4 * var(--t))/1.25 "Pretendard", sans-serif; }
+.exhibition-section { padding-bottom: calc(40 * var(--u) + 60 * var(--t)); display: flex; flex-direction: column; gap: calc(12 * var(--u) + 8 * var(--t)); }
+.more-link { display: flex; align-items: center; gap: calc(4 * var(--u)); color: var(--accent); text-transform: uppercase; font-size: calc(16 * var(--u)); line-height: 1; }
+.more-link .external-arrow { width: calc(20 * var(--u)); height: calc(21.36 * var(--u)); background-image: url("../../assets/icons/arrow-red.svg"); }
+.exhibition-carousel { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; cursor: grab; }
+.exhibition-carousel::-webkit-scrollbar { display: none; }
+.exhibition-carousel.is-dragging { cursor: grabbing; user-select: none; }
+.exhibition-card { flex: none; display: flex; flex-direction: column; gap: calc(16 * var(--u)); width: calc(370 * var(--u) + (var(--poster-width) - 370) * var(--t)); min-height: calc(706 * var(--u) + 484 * var(--t)); }
+.exhibition-card + .exhibition-card { margin-left: calc(16 * var(--u)); padding-left: calc(16 * var(--u)); border-left: 1px solid var(--rule); box-sizing: content-box; }
+.exhibition-poster { width: 100%; aspect-ratio: var(--poster-width) / var(--poster-height); overflow: hidden; }
+.exhibition-poster img { width: 100%; height: 100%; object-fit: cover; }
+.exhibition-copy { display: flex; flex-direction: column; gap: calc(24 * var(--u)); }
+.exhibition-heading { display: flex; flex-direction: column; gap: calc(6 * var(--u)); }
+.exhibition-heading h3 { font-size: calc(36 * var(--u) + 12 * var(--t)); line-height: 1; text-transform: uppercase; overflow-wrap: break-word; }
+.exhibition-subtitle { font: 500 calc(18 * var(--u))/1.2 "Helvetica Neue Local", "Pretendard", sans-serif; letter-spacing: -.02em; }
+.exhibition-description { display: flex; flex-direction: column; gap: calc(12 * var(--u)); font: 400 calc(14 * var(--u))/1.2 "Pretendard", sans-serif; }
+.mobile-exhibitions { display: none; }
+.networks-section { display: flex; flex-direction: column; gap: calc(10 * var(--u)); }
+.networks-image { position: relative; height: calc(202 * var(--u) + 392 * var(--t)); overflow: hidden; }
+.networks-image > img { width: 100%; height: auto; position: absolute; left: 0; top: calc(-8 * var(--u) - 23 * var(--t)); }
+.networks-link { position: absolute; right: calc(16 * var(--u) + 24 * var(--t)); bottom: calc(17 * var(--u) + 17 * var(--t)); color: #fff; border: 1px solid #fff; padding: calc(8 * var(--u)) calc(12 * var(--u)); font-size: calc(16 * var(--u) + 8 * var(--t)); line-height: 1; letter-spacing: -.03em; white-space: nowrap; }
+
+/* A single composition change keeps the two supplied designs intact. */
+@media (max-width: 1023px) {
+  .about-section { flex-direction: column; gap: calc(100 * var(--u)); min-height: 0; }
+  .about-section h1, .about-copy { width: 100%; }
+  .academic-sections { padding-bottom: calc(40 * var(--u)); }
+  .curriculum-heading { display: grid; grid-template-columns: 1fr; background: none; padding: 0; }
+  .curriculum-heading h2 { padding-bottom: calc(8 * var(--u)); background: linear-gradient(var(--rule),var(--rule)) left bottom / 100% calc(.5 * var(--u)) no-repeat; }
+  .curriculum-downloads { flex-direction: column; gap: calc(8 * var(--u)); }
+  .desktop-curriculum { display: none; }
+  .mobile-curriculum { display: flex; flex-direction: column; gap: calc(46 * var(--u)); }
+  .mobile-curriculum > div { display: flex; flex-direction: column; gap: calc(12 * var(--u)); }
+  .mobile-curriculum h3 { font: 500 calc(16 * var(--u))/1.2 "Pretendard", sans-serif; }
+  .mobile-curriculum p { font: 400 calc(14 * var(--u))/1.6 "Nanum Myeongjo", serif; }
+  .faculty-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .faculty-card, .faculty-card:nth-child(n+9):nth-child(-n+12) { min-height: 0; }
+  .exhibition-section { padding-top: calc(40 * var(--u)); }
+  .exhibition-carousel { display: none; }
+  .more-link { color: #000; }
+  .more-link .external-arrow { filter: brightness(0); }
+  .mobile-exhibitions { display: flex; flex-direction: column; gap: calc(12 * var(--u)); }
+  .mobile-exhibition-card { display: flex; flex-direction: column; gap: calc(16 * var(--u)); }
+  .mobile-exhibition-card + .mobile-exhibition-card { border-top: calc(.5 * var(--u)) solid var(--rule); padding-top: calc(12 * var(--u)); }
+  .mobile-exhibition-poster { height: calc(414 * var(--u)); background: #fff; overflow: hidden; }
+  .mobile-exhibition-poster img { width: 100%; height: 100%; object-fit: contain; }
+  .networks-section { padding-top: calc(40 * var(--u)); }
+}
+
+/* Per-poster dimensions from the desktop Figma carousel. */
+.exhibition-card--2026 { --poster-width: 400; --poster-height: 579; }
+.exhibition-card--2025 { --poster-width: 515; --poster-height: 723; }
+.exhibition-card--2024 { --poster-width: 384; --poster-height: 385; }
+.exhibition-card--2023 { --poster-width: 454; --poster-height: 641; }
+.exhibition-card--2022 { --poster-width: 522; --poster-height: 808; }
+.exhibition-card--2021 { --poster-width: 640; --poster-height: 359; }
+.exhibition-card--2020 { --poster-width: 536; --poster-height: 759; }
+.exhibition-card--2019 { --poster-width: 559; --poster-height: 712; }
+.exhibition-card--2018 { --poster-width: 449; --poster-height: 896; }
+.exhibition-card--2017 { --poster-width: 473; --poster-height: 663; }
+.exhibition-card--2016 { --poster-width: 556; --poster-height: 788; }
+.exhibition-card--2015 { --poster-width: 473; --poster-height: 670; }
