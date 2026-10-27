@@ -1,28 +1,28 @@
+.intro-viewport-measure {
+  position: absolute;
+  width: 0;
+  height: 100vh;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@supports (height: 100svh) {
+  .intro-viewport-measure {
+    height: 100svh;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) and (view-timeline-name: --intro-scene) and (animation-range: exit 0% exit 100%) {
-    .intro-scene-boundary {
-      view-timeline-name: --intro-scene;
-      view-timeline-axis: block;
-      view-timeline-inset: 0px;
-    }
-
+  @supports (animation-timeline: scroll(root block)) and (animation-range: 1px 2px) {
     .intro-scene-content {
-      --intro-distance: var(--intro-strength-percent);
       animation: intro-scene-scroll linear both;
-      animation-timeline: --intro-scene;
-      animation-range: contain 0% exit 100%;
+      animation-timeline: scroll(root block);
+      animation-range: var(--intro-range-start, 0px) var(--intro-range-end, 1px);
       will-change: transform;
-    }
-
-    @media (max-width: 1079px) {
-      .intro-scene-content {
-        --intro-distance: min(var(--intro-strength-percent), var(--intro-small-viewport-distance));
-        animation-range: exit 0% exit 100%;
-      }
     }
   }
 
-  @supports not ((animation-timeline: view()) and (view-timeline-name: --intro-scene) and (animation-range: exit 0% exit 100%)) {
+  @supports not ((animation-timeline: scroll(root block)) and (animation-range: 1px 2px)) {
     .intro-scene-boundary {
       --intro-pin-distance: var(--intro-scene-distance, 0px);
       --intro-viewport-height: 100vh;
