@@ -6,38 +6,26 @@ import "./block-reveal.css";
 
 /** 줄 등장과 같은 속도로, 내용과 버튼을 포함한 블록을 아래에서 보여 준다. */
 export function BlockReveal({ children, index }: { children: ReactNode; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
   const completed = useRef(false);
-  const [state, setState] = useState<"pending" | "idle" | "revealing" | "revealed">("pending");
+  const [state, setState] = useState<"pending" | "revealing" | "revealed">("pending");
 
   useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
     const reducedMotion = window.matchMedia(REDUCED_MOTION);
-    let observer: IntersectionObserver | undefined;
 
     const sync = () => {
-      observer?.disconnect();
       if (completed.current) return;
-      if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+      if (reducedMotion.matches) {
         completed.current = true;
         setState("revealed");
         return;
       }
-      setState("idle");
-      observer = new IntersectionObserver((entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setState("revealing");
-          observer?.disconnect();
-        }
-      }, { threshold: MOTION.revealThreshold });
-      observer.observe(element);
+      // 교수 상세를 열면 화면 밖에 있는 항목도 순서대로 바로 시작한다.
+      setState("revealing");
     };
 
     sync();
     reducedMotion.addEventListener("change", sync);
     return () => {
-      observer?.disconnect();
       reducedMotion.removeEventListener("change", sync);
     };
   }, []);
@@ -49,7 +37,7 @@ export function BlockReveal({ children, index }: { children: ReactNode; index: n
   } as CSSProperties;
 
   return (
-    <div ref={ref} data-reveal={state === "pending" ? "pending" : "block"} data-block-reveal-state={state} style={style}>
+    <div data-reveal={state === "pending" ? "pending" : "block"} data-block-reveal-state={state} style={style}>
       <div
         className="block-reveal-content"
         onAnimationEnd={(event) => {
