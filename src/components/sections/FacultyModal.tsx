@@ -3,9 +3,10 @@
 /* eslint-disable @next/next/no-img-element -- 아이콘 SVG */
 import Image from "next/image";
 import Lenis from "lenis";
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { Children, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import type { CvEntry, Faculty } from "@/types/faculty";
 import { REDUCED_MOTION, SMOOTH_SCROLL_OPTIONS } from "@/components/motion/motion";
+import { BlockReveal } from "@/components/motion/BlockReveal";
 import { Container } from "@/components/ui/Container";
 import { LogoCcd } from "@/components/ui/LogoCcd";
 
@@ -75,6 +76,16 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
         {children}
       </div>
     </section>
+  );
+}
+
+function FacultyDetails({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex min-w-0 flex-1 flex-col gap-10 md:gap-[60px]">
+      {Children.toArray(children).map((section, index) => (
+        <BlockReveal key={index} index={index}>{section}</BlockReveal>
+      ))}
+    </div>
   );
 }
 
@@ -148,7 +159,7 @@ function Detail({ person }: { person: Faculty }) {
       </div>
 
       {/* 오른쪽: CV */}
-      <div className="flex min-w-0 flex-1 flex-col gap-10 md:gap-[60px]">
+      <FacultyDetails>
         {/* 시안 44:2926: Major → Research Interest → Biography → Awards → (기타) → Publications → Patent → Works */}
         <Section title="Major">
           {d.major?.length ? (
@@ -208,7 +219,7 @@ function Detail({ person }: { person: Faculty }) {
             <EntryList entries={d.works} />
           </Collapsible>
         ) : null}
-      </div>
+      </FacultyDetails>
     </div>
   );
 }
