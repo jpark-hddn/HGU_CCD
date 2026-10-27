@@ -1,7 +1,12 @@
 /* 교수 상세의 각 항목도 메뉴 텍스트와 같은 등장 효과를 사용한다. */
 @media (prefers-reduced-motion: no-preference) {
+  [data-block-reveal-state="waiting"],
   [data-block-reveal-state="revealing"] {
     overflow: clip;
+  }
+
+  [data-block-reveal-state="waiting"] > .block-reveal-content {
+    transform: translate3d(0, 110%, 0);
   }
 
   [data-block-reveal-state="revealing"] > .block-reveal-content {

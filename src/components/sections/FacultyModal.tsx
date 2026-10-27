@@ -80,10 +80,32 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
 }
 
 function FacultyDetails({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [start, setStart] = useState(false);
+
+  useEffect(() => {
+    const firstSection = ref.current?.firstElementChild;
+    if (!firstSection) return;
+    if (!("IntersectionObserver" in window)) {
+      const timer = setTimeout(() => setStart(true), 0);
+      return () => clearTimeout(timer);
+    }
+
+    // 이름이 아니라 실제 첫 항목이 보일 때 전체 항목을 한 번에 시작한다.
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setStart(true);
+        observer.disconnect();
+      }
+    });
+    observer.observe(firstSection);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-10 md:gap-[60px]">
+    <div ref={ref} className="flex min-w-0 flex-1 flex-col gap-10 md:gap-[60px]">
       {Children.toArray(children).map((section, index) => (
-        <BlockReveal key={index} index={index}>{section}</BlockReveal>
+        <BlockReveal key={index} index={index} start={start}>{section}</BlockReveal>
       ))}
     </div>
   );

@@ -5,9 +5,9 @@ import { MOTION, REDUCED_MOTION } from "./motion";
 import "./block-reveal.css";
 
 /** 줄 등장과 같은 속도로, 내용과 버튼을 포함한 블록을 아래에서 보여 준다. */
-export function BlockReveal({ children, index }: { children: ReactNode; index: number }) {
+export function BlockReveal({ children, index, start }: { children: ReactNode; index: number; start: boolean }) {
   const completed = useRef(false);
-  const [state, setState] = useState<"pending" | "revealing" | "revealed">("pending");
+  const [state, setState] = useState<"pending" | "waiting" | "revealing" | "revealed">("pending");
 
   useEffect(() => {
     const reducedMotion = window.matchMedia(REDUCED_MOTION);
@@ -19,8 +19,7 @@ export function BlockReveal({ children, index }: { children: ReactNode; index: n
         setState("revealed");
         return;
       }
-      // 교수 상세를 열면 화면 밖에 있는 항목도 순서대로 바로 시작한다.
-      setState("revealing");
+      setState(start ? "revealing" : "waiting");
     };
 
     sync();
@@ -28,7 +27,7 @@ export function BlockReveal({ children, index }: { children: ReactNode; index: n
     return () => {
       reducedMotion.removeEventListener("change", sync);
     };
-  }, []);
+  }, [start]);
 
   const style = {
     "--reveal-duration": `${MOTION.revealDuration}ms`,
