@@ -244,6 +244,7 @@ export function FacultyModal({ person, onClose }: { person: Faculty | null; onCl
   return (
     <dialog
       ref={ref}
+      data-lenis-prevent
       tabIndex={-1}
       aria-label={person ? `${person.nameKo} 교수 상세` : undefined}
       onClose={onClose}

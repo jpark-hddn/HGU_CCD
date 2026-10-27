@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "@fontsource/nanum-myeongjo/400.css";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,11 +33,14 @@ const FIT_DESIGN_SCRIPT = `(function(){
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // 스크립트가 html style(--page-zoom)을 바꾸므로 hydration 경고 무시
-    <html lang="ko" className="h-full antialiased" suppressHydrationWarning>
+    <html lang="ko" className="h-full antialiased" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: FIT_DESIGN_SCRIPT }} />
       </head>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

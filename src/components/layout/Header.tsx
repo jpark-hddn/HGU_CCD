@@ -83,6 +83,7 @@ export function Header({ tone = "dark" }: { tone?: Tone }) {
       {open && (
         <div
           id="mobile-menu"
+          data-lenis-prevent
           className={`fixed inset-x-0 top-[72px] bottom-0 overflow-y-auto lg:hidden ${light ? "bg-white" : "bg-black"}`}
         >
           <nav aria-label="주요 메뉴" className="px-4 pt-6 pb-10 md:px-[60px]">
