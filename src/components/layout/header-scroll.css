@@ -1,0 +1,28 @@
+/* 앵커로 이동할 때 펼쳐진 메뉴 아래에 제목이 가려지지 않게 한다. */
+html {
+  scroll-padding-top: calc(82px * var(--page-zoom, 1));
+}
+
+@media (max-width: 1079px) {
+  html {
+    scroll-padding-top: 72px;
+  }
+}
+
+.site-header[data-header-hidden="true"] {
+  transform: translateY(-100%);
+}
+
+/* 메뉴의 전체 화면 레이어는 뷰포트를 기준으로 배치한다. */
+.site-header[data-menu-open="true"] {
+  position: fixed;
+  inset-inline: 0;
+  transform: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header {
+    transition: transform 480ms cubic-bezier(.22, 1, .36, 1);
+  }
+}

@@ -8,6 +8,7 @@ import { REDUCED_MOTION } from "@/components/motion/motion";
 import { Container } from "@/components/ui/Container";
 import { LogoCcd } from "@/components/ui/LogoCcd";
 import "./mobile-menu-close.css";
+import "./header-scroll.css";
 
 const linkText = "font-pretendard text-[14px] uppercase leading-none tracking-[-0.02em]";
 
@@ -18,10 +19,37 @@ export function Header({ tone = "dark" }: { tone?: Tone }) {
   const light = tone === "light";
   const [open, setOpen] = useState(false);
   const [spinning, setSpinning] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   const startCloseSpin = () => {
     if (open && !window.matchMedia(REDUCED_MOTION).matches) setSpinning(true);
   };
+
+  useEffect(() => {
+    let previousY = Math.max(0, window.scrollY);
+    let direction = 0;
+    let turningPoint = previousY;
+
+    const onScroll = () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - previousY;
+      if (Math.abs(delta) < 0.1) return;
+
+      const nextDirection = delta > 0 ? 1 : -1;
+      if (nextDirection !== direction) {
+        direction = nextDirection;
+        turningPoint = previousY;
+      }
+      previousY = y;
+
+      if (open || y < 8) setHidden(false);
+      else if (direction > 0 && y - turningPoint >= 12) setHidden(true);
+      else if (direction < 0 && turningPoint - y >= 8) setHidden(false);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -42,7 +70,12 @@ export function Header({ tone = "dark" }: { tone?: Tone }) {
   }, [open]);
 
   return (
-    <header className={`relative z-50 ${light ? "bg-white text-black" : "bg-black text-white"}`}>
+    <header
+      data-header-hidden={hidden && !open ? "true" : undefined}
+      data-menu-open={open ? "true" : undefined}
+      onFocusCapture={() => setHidden(false)}
+      className={`site-header sticky top-0 z-50 ${light ? "bg-white text-black" : "bg-black text-white"}`}
+    >
       {/* Desktop (≥1080) */}
       <Container className="hidden h-[82px] items-center lg:flex">
         <div className="flex items-center gap-[60px]">
