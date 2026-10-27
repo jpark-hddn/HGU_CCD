@@ -40,7 +40,7 @@ export function BlockReveal({ children, index, start }: { children: ReactNode; i
       <div
         className="block-reveal-content"
         onAnimationEnd={(event) => {
-          if (event.target !== event.currentTarget || event.animationName !== "line-reveal") return;
+          if (event.target !== event.currentTarget || event.animationName !== "faculty-block-reveal") return;
           completed.current = true;
           setState("revealed");
         }}
