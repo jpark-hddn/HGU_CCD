@@ -13,12 +13,14 @@ import { LogoCcd } from "@/components/ui/LogoCcd";
 /** 섹션 제목 + 하단 구분선 (PC 26px / Mo 22px) */
 function SectionTitle({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
   return (
-    <div className="flex flex-col gap-1.5 md:gap-2">
-      <div className="flex items-center gap-1.5 md:gap-2">
-        <h3 className="flex-1 font-telegraf text-[22px] leading-[1.06] md:text-[26px]">{children}</h3>
-        {aside}
+    <div className="faculty-reveal-mask">
+      <div className="faculty-reveal-item flex flex-col gap-1.5 md:gap-2">
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <h3 className="flex-1 font-telegraf text-[22px] leading-[1.06] md:text-[26px]">{children}</h3>
+          {aside}
+        </div>
+        <hr className="border-0 border-t border-white/50 md:border-white" />
       </div>
-      <hr className="border-0 border-t border-white/50 md:border-white" />
     </div>
   );
 }
@@ -28,9 +30,11 @@ function EntryList({ entries }: { entries: CvEntry[] }) {
   return (
     <ul className="flex flex-col text-[14px] leading-[1.6] md:text-[16px]">
       {entries.map((e, i) => (
-        <li key={i} className="flex gap-3">
-          <span className="w-[100px] shrink-0">{e.year}</span>
-          <span className="min-w-0 flex-1">{e.text}</span>
+        <li key={i} className="faculty-reveal-mask">
+          <span className="faculty-reveal-item flex gap-3">
+            <span className="w-[100px] shrink-0">{e.year}</span>
+            <span className="min-w-0 flex-1">{e.text}</span>
+          </span>
         </li>
       ))}
     </ul>
@@ -190,17 +194,23 @@ function Detail({ person }: { person: Faculty }) {
             ) : (
               <ul className="text-[14px] leading-[1.6] md:text-[16px]">
                 {d.major.map((m) => (
-                  <li key={m.text}>{m.text}</li>
+                  <li key={m.text} className="faculty-reveal-mask">
+                    <span className="faculty-reveal-item block">{m.text}</span>
+                  </li>
                 ))}
               </ul>
             )
           ) : (
-            <p className="text-[14px] leading-[1.6] md:text-[16px]">{person.education}</p>
+            <div className="faculty-reveal-mask">
+              <p className="faculty-reveal-item text-[14px] leading-[1.6] md:text-[16px]">{person.education}</p>
+            </div>
           )}
         </Section>
         {d.researchInterest && (
           <Section title="Research Interest">
-            <p className="text-[14px] leading-[1.4] md:text-[16px]">{d.researchInterest}</p>
+            <div className="faculty-reveal-mask">
+              <p className="faculty-reveal-item text-[14px] leading-[1.4] md:text-[16px]">{d.researchInterest}</p>
+            </div>
           </Section>
         )}
         {d.biography?.length ? (
