@@ -19,3 +19,12 @@ export const MOTION = {
 } as const;
 
 export const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
+/** 페이지와 교수 상세 창에서 같은 스크롤 느낌을 사용한다. */
+export const SMOOTH_SCROLL_OPTIONS = {
+  autoRaf: true,
+  lerp: 0.075,
+  smoothWheel: true,
+  wheelMultiplier: 1,
+  syncTouch: false,
+} as const;

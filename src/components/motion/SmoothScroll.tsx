@@ -2,7 +2,7 @@
 
 import Lenis from "lenis";
 import { useEffect } from "react";
-import { REDUCED_MOTION } from "./motion";
+import { REDUCED_MOTION, SMOOTH_SCROLL_OPTIONS } from "./motion";
 
 /** 휠 입력을 부드럽게 이어 주되, 터치와 링크 이동은 브라우저 기본 동작을 유지한다. */
 export function SmoothScroll() {
@@ -28,14 +28,7 @@ export function SmoothScroll() {
       lenis = undefined;
       if (reducedMotion.matches) return;
 
-      lenis = new Lenis({
-        autoRaf: true,
-        // 작을수록 오래 미끄러진다. 0.075는 반응성과 잔향의 균형을 잡은 시작값.
-        lerp: 0.075,
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        syncTouch: false,
-      });
+      lenis = new Lenis(SMOOTH_SCROLL_OPTIONS);
       syncLock();
     };
 

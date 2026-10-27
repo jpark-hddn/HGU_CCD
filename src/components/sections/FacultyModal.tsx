@@ -2,8 +2,10 @@
 
 /* eslint-disable @next/next/no-img-element -- 아이콘 SVG */
 import Image from "next/image";
+import Lenis from "lenis";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import type { CvEntry, Faculty } from "@/types/faculty";
+import { REDUCED_MOTION, SMOOTH_SCROLL_OPTIONS } from "@/components/motion/motion";
 import { Container } from "@/components/ui/Container";
 import { LogoCcd } from "@/components/ui/LogoCcd";
 
@@ -217,6 +219,7 @@ function Detail({ person }: { person: Faculty }) {
  */
 export function FacultyModal({ person, onClose }: { person: Faculty | null; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -228,6 +231,29 @@ export function FacultyModal({ person, onClose }: { person: Faculty | null; onCl
       el.focus();
     }
     if (!person && el.open) el.close();
+  }, [person]);
+
+  // 배경은 잠근 채 상세 창에서만 페이지와 같은 관성으로 스크롤한다.
+  useEffect(() => {
+    const dialog = ref.current;
+    const content = contentRef.current;
+    if (!person || !dialog || !content) return;
+
+    const reducedMotion = window.matchMedia(REDUCED_MOTION);
+    let lenis: Lenis | undefined;
+    const syncMotion = () => {
+      lenis?.destroy();
+      lenis = reducedMotion.matches
+        ? undefined
+        : new Lenis({ ...SMOOTH_SCROLL_OPTIONS, wrapper: dialog, content });
+    };
+
+    syncMotion();
+    reducedMotion.addEventListener("change", syncMotion);
+    return () => {
+      reducedMotion.removeEventListener("change", syncMotion);
+      lenis?.destroy();
+    };
   }, [person]);
 
   // 열려 있는 동안 배경 스크롤 잠금
@@ -251,7 +277,7 @@ export function FacultyModal({ person, onClose }: { person: Faculty | null; onCl
       className="inset-0 m-0 h-full max-h-none w-full outline-none max-w-none overflow-y-auto overscroll-contain bg-black p-0 text-white backdrop:bg-black/60"
     >
       {person && (
-        <>
+        <div ref={contentRef}>
           {/* Mobile: 상단 바 (로고 + 닫기) */}
           <div className="sticky top-0 z-10 flex items-center justify-between bg-black px-[23px] py-4 md:hidden">
             <LogoCcd width={44.386} className="text-white" />
@@ -272,7 +298,7 @@ export function FacultyModal({ person, onClose }: { person: Faculty | null; onCl
           <Container className="pt-0 pb-[90px] md:pt-[124px] md:pb-[100px]">
             <Detail key={person.slug} person={person} />
           </Container>
-        </>
+        </div>
       )}
     </dialog>
   );
