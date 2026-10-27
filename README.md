@@ -1,60 +1,36 @@
-# HGU CCD 홈페이지 — 홈 화면
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-원본 Figma의 PC 메인 `89:5209`와 모바일 메인2 `103:2036`을 기준으로 만든 로컬 홈페이지입니다. 프레임워크와 설치 의존성이 없는 HTML·CSS·JavaScript 프로젝트입니다.
+## Getting Started
 
-## 실행
+First, run the development server:
 
-이 폴더에서 `npm start` 또는 `node server.mjs`를 실행하고 http://127.0.0.1:4173 을 여세요. 서버 종료는 실행한 터미널에서 Ctrl+C입니다. 다른 포트는 `PORT=4174 npm start`로 지정합니다.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## 파일 위치
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- `index.html`: 홈 화면의 섹션, 문구, 교수 목록, 전시 목록. HTML을 직접 편집할 수 있습니다.
-- `css/common.css`: 로컬 서체, 공통 크기 계산, 헤더·메뉴·푸터.
-- `css/pages/home.css`: 홈 화면만의 레이아웃과 스타일.
-- `css/pages/home-motion.css`: 글자 마스크, 등장 애니메이션, 흰색 섹션 겹침 레이어.
-- `js/site-config.js`: 외부 링크·다운로드 주소.
-- `js/common.js`: 공통 링크 적용과 모바일 메뉴 동작.
-- `js/pages/home.js`: 영상 재생·일시정지, 화면별 영상 선택, 전시 가로 탐색.
-- `js/pages/home-motion.js`: 소개 문구 등장 시점, 줄 분리, 스크롤 계산. 상단 `MOTION`에서 수치를 조절합니다.
-- `assets/images`, `assets/video`, `assets/fonts`, `assets/icons`: 로컬 정적 자료.
-- `pages/`: 이후 교수 상세·전시 목록 등 별도 HTML 페이지를 추가할 위치.
-- `docs/implementation-rules.md`: 합의한 반응형·디자인 규칙과 원본 확인 사항.
-- `server.mjs`: MP4 바이트 범위를 지원하는 로컬 미리보기 서버.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 이번 범위
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-홈 화면 전체, 메뉴의 섹션 이동, 모바일 메뉴, 배너 영상, PC 전시 가로 스크롤을 구현합니다. 교수 상세·전시 상세·전시 전체 목록·Networks 별도 페이지는 다음 단계입니다. 현재 디자인에서 이동 주소가 지정되지 않은 외부 링크 및 다운로드는 `js/site-config.js`의 `null` 값을 실제 URL 또는 로컬 파일 경로로 바꾸면 활성화됩니다. 임의의 주소나 가짜 PDF는 넣지 않았습니다.
+## Learn More
 
-PC 전시 목록은 트랙패드의 가로 스크롤, 마우스 드래그, 키보드 좌우/Home/End로 탐색할 수 있습니다. 영상의 재생 버튼은 마우스를 올리거나 키보드로 포커스하면 나타납니다.
+To learn more about Next.js, take a look at the following resources:
 
-## 자료
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-교수 사진·CCD 로고·교정 사진·배너 영상·최근 전시 포스터 4장은 사용자가 제공한 원본을 사용합니다. 나머지 전시 포스터·HGU 마크·아이콘은 공유 Figma에서 가져왔습니다. 사진 원본은 변형하지 않았고, 배너는 PC용 90도 회전본과 모바일용 세로 원본을 함께 제공합니다. 모든 런타임 이미지와 폰트는 로컬 파일이며 만료되는 Figma URL을 사용하지 않습니다.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## 확인 결과
+## Deploy on Vercel
 
-Chrome에서 320·375·402·768·1023·1024·1440·1920·2560px 화면을 확인했습니다. 가로 넘침과 누락된 이미지, JavaScript 오류가 없으며 모바일 메뉴와 섹션 이동, 전시 가로 탐색, MP4 범위 요청이 동작합니다. 로고는 제공된 흰색 투명 PNG를 헤더에 사용하고 푸터에서는 CSS로 검게 표시합니다. 모바일 전시 3개에는 해당 연도 포스터를 연결했습니다.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## 홈 인터랙션
-
-Studio DADO의 줄 단위 등장과 흰 섹션이 상단 장면을 덮는 움직임을 참고한 홈 화면 인터랙션입니다.
-
-- `index.html`: 영상·소개 영역을 `.intro-scene`으로, 이후 흰 영역을 `.home-content`로 묶습니다. 등장할 문구는 `data-reveal`로 지정합니다. 원본 문구는 HTML에 그대로 있습니다.
-- `js/pages/home-motion.js`: 폰트 로드 후 브라우저의 실제 줄바꿈을 측정하고, 화면에 들어온 문구를 한 번만 재생합니다. 화면 폭이 바뀌면 줄을 다시 계산합니다. 스크롤은 `requestAnimationFrame`으로 처리하며 휠이나 터치 동작을 가로채지 않습니다.
-- `css/pages/home-motion.css`: 줄을 가리는 마스크, 아래에서 올라오는 키프레임, 흰 영역의 겹침 순서를 정의합니다. 기존 `home.css`의 폰트와 레이아웃 수치는 수정하지 않습니다.
-
-`MOTION` 조절값:
-
-| 속성 | 현재 값 | 의미 |
-| --- | --- | --- |
-| `revealDuration` | 1000 | 각 줄이 등장하는 시간(ms) |
-| `lineStagger` | 70 | 줄 사이의 등장 지연(ms) |
-| `blockStagger` | 100 | 제목·영문·한글 블록 사이의 지연(ms) |
-| `revealEasing` | cubic-bezier(.22, 1, .36, 1) | 빠르게 시작해 부드럽게 멈추는 곡선 |
-| `revealThreshold` | 0.08 | 문구 영역이 화면에 들어왔을 때의 시작 비율 |
-| `scrollStrength` | 0.25 | 상단 장면이 스크롤보다 느리게 움직이는 정도 |
-| `mobileBreakpoint` | 1023 | 긴 모바일 소개문을 읽은 뒤 겹침을 시작하는 기준 |
-
-새로고침하면 등장 애니메이션을 다시 볼 수 있습니다. 모바일에서 처음 화면 아래에 있는 문구는 스크롤로 화면에 들어올 때 재생합니다. OS의 동작 줄이기 설정에서는 등장·겹침 효과를 끄고 원본 텍스트를 표시합니다. JavaScript가 실행되지 않아도 원본 문구는 보입니다.
-
-PC와 모바일에서 원본 화면과 텍스트 블록 및 주요 섹션의 너비·높이가 동일함을 비교 확인했습니다.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
