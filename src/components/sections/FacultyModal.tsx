@@ -54,9 +54,11 @@ function Section({ title, children, className = "" }: { title: string; children:
 function Collapsible({ title, children }: { title: string; children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [revealing, setRevealing] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const lastItemRef = useRef<HTMLElement | null>(null);
   const id = useId();
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col">
       <SectionTitle
         aside={
           <button
@@ -65,8 +67,14 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
             aria-controls={id}
             aria-label={`${title} ${open ? "접기" : "펼치기"}`}
             onClick={() => {
-              setRevealing(!open && !window.matchMedia(REDUCED_MOTION).matches);
-              setOpen(!open);
+              const nextOpen = !open;
+              const items = panelRef.current?.querySelectorAll<HTMLElement>(".faculty-reveal-item") ?? [];
+              items.forEach((item, index) => {
+                item.style.setProperty("--expanded-item-delay", `${index * 55}ms`);
+              });
+              lastItemRef.current = items.length ? items[items.length - 1] : null;
+              setRevealing(nextOpen && items.length > 0 && !window.matchMedia(REDUCED_MOTION).matches);
+              setOpen(nextOpen);
             }}
             className="relative flex size-8 shrink-0 items-center justify-center hover:opacity-70 md:size-10"
           >
@@ -82,16 +90,19 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
       </SectionTitle>
       <div
         id={id}
-        hidden={!open}
+        ref={panelRef}
+        data-expanded={open ? "true" : "false"}
         data-expanded-reveal={open && revealing ? "true" : undefined}
-        className="flex flex-col gap-2"
+        className="faculty-expand"
         onAnimationEnd={(event) => {
           if (!(event.target instanceof HTMLElement) || !event.target.classList.contains("faculty-reveal-item") || event.animationName !== "faculty-line-reveal") return;
           event.stopPropagation();
-          setRevealing(false);
+          if (event.target === lastItemRef.current) setRevealing(false);
         }}
       >
-        {children}
+        <div className="faculty-expand-inner" inert={!open} aria-hidden={!open}>
+          <div className="flex flex-col gap-2 pt-2">{children}</div>
+        </div>
       </div>
     </section>
   );
