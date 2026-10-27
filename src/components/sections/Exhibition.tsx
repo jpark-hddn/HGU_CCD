@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { dateVenue } from "@/lib/exhibition";
 import { ExhibitionRail, RailControls } from "./ExhibitionRail";
 import { DEFAULT_SIZE, ExhibitionMobileCard } from "./ExhibitionMobileCard";
+import "./exhibition-more.css";
 
 const MORE_HREF = "/exhibitions";
 const RAIL_ID = "exhibition-rail";
@@ -104,9 +105,12 @@ export async function Exhibition() {
               <RailControls target={RAIL_ID} />
               <Link
                 href={MORE_HREF}
-                className="flex min-w-[160px] items-center justify-center border border-black px-5 py-4 font-telegraf text-[22.857px] leading-none uppercase transition-colors [text-box:trim-both_cap_alphabetic] hover:bg-black hover:text-white"
+                className="exhibition-more-link relative flex min-w-[160px] items-center justify-center border border-black px-5 py-4 font-telegraf text-[22.857px] leading-none uppercase [text-box:trim-both_cap_alphabetic]"
               >
-                more
+                <span>more</span>
+                <span aria-hidden="true" className="exhibition-more-overlay">
+                  <span>more</span>
+                </span>
               </Link>
             </div>
           </>
