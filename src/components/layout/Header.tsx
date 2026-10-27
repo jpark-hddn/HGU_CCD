@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NAV_ITEMS } from "@/data/site";
+import { LineReveal } from "@/components/motion/LineReveal";
 import { Container } from "@/components/ui/Container";
 import { LogoCcd } from "@/components/ui/LogoCcd";
 
@@ -39,10 +40,12 @@ export function Header({ tone = "dark" }: { tone?: Tone }) {
           </Link>
           <nav aria-label="주요 메뉴">
             <ul className="flex items-center gap-[30px]">
-              {NAV_ITEMS.map((item) => (
+              {NAV_ITEMS.map((item, index) => (
                 <li key={item.href}>
-                  <a href={item.href} className={`${linkText} hover:opacity-60`}>
-                    {item.label}
+                  <a href={item.href} className={`block ${linkText} hover:opacity-60`}>
+                    <LineReveal as="span" index={index} className="block">
+                      {item.label}
+                    </LineReveal>
                   </a>
                 </li>
               ))}
@@ -88,14 +91,16 @@ export function Header({ tone = "dark" }: { tone?: Tone }) {
         >
           <nav aria-label="주요 메뉴" className="px-4 pt-6 pb-10 md:px-[60px]">
             <ul className="flex flex-col">
-              {NAV_ITEMS.map((item) => (
+              {NAV_ITEMS.map((item, index) => (
                 <li key={item.href} className={`border-b ${light ? "border-black/20" : "border-white/20"}`}>
                   <a
                     href={item.href}
                     onClick={() => setOpen(false)}
                     className="block py-4 font-telegraf text-[32px] leading-none tracking-[-0.03em] uppercase"
                   >
-                    {item.label}
+                    <LineReveal as="span" index={index} className="block">
+                      {item.label}
+                    </LineReveal>
                   </a>
                 </li>
               ))}
