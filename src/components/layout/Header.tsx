@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { NAV_ITEMS } from "@/data/site";
 import { LineReveal } from "@/components/motion/LineReveal";
+import { REDUCED_MOTION } from "@/components/motion/motion";
 import { Container } from "@/components/ui/Container";
 import { LogoCcd } from "@/components/ui/LogoCcd";
+import "./mobile-menu-close.css";
 
 const linkText = "font-pretendard text-[14px] uppercase leading-none tracking-[-0.02em]";
 
@@ -15,11 +17,20 @@ type Tone = "dark" | "light";
 export function Header({ tone = "dark" }: { tone?: Tone }) {
   const light = tone === "light";
   const [open, setOpen] = useState(false);
+  const [spinning, setSpinning] = useState(false);
+
+  const startCloseSpin = () => {
+    if (open && !window.matchMedia(REDUCED_MOTION).matches) setSpinning(true);
+  };
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    const onResize = () => window.innerWidth >= 1080 && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setOpen(false); setSpinning(false); }
+    };
+    const onResize = () => {
+      if (window.innerWidth >= 1080) { setOpen(false); setSpinning(false); }
+    };
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
@@ -64,14 +75,18 @@ export function Header({ tone = "dark" }: { tone?: Tone }) {
           aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
           aria-expanded={open}
           aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => { setOpen((v) => !v); setSpinning(false); }}
+          onPointerEnter={(event) => { if (event.pointerType !== "touch") startCloseSpin(); }}
+          onFocus={(event) => { if (event.currentTarget.matches(":focus-visible")) startCloseSpin(); }}
+          onAnimationEnd={(event) => { if (event.animationName === "mobile-close-spin") setSpinning(false); }}
+          data-spinning={spinning ? "true" : undefined}
           className="-m-2 grid size-[41px] place-items-center"
         >
           {open ? (
-            <span aria-hidden className="relative block h-5 w-[25px]">
-              <span className="absolute top-1/2 left-0 h-0.5 w-full -translate-y-1/2 rotate-45 bg-current" />
-              <span className="absolute top-1/2 left-0 h-0.5 w-full -translate-y-1/2 -rotate-45 bg-current" />
-            </span>
+            <svg aria-hidden="true" viewBox="0 0 25 25" fill="none" className="mobile-close-icon block size-[25px]">
+              <line className="mobile-close-backslash" x1="3.66" y1="3.66" x2="21.34" y2="21.34" stroke="currentColor" strokeWidth="2" pathLength={1} />
+              <line className="mobile-close-slash" x1="21.34" y1="3.66" x2="3.66" y2="21.34" stroke="currentColor" strokeWidth="2" pathLength={1} />
+            </svg>
           ) : (
             // 햄버거 — menu.svg 와 같은 25×22, 2px 선 3개 (색은 헤더 글자색)
             <span aria-hidden className="flex h-[22px] w-[25px] flex-col justify-between">
@@ -95,7 +110,7 @@ export function Header({ tone = "dark" }: { tone?: Tone }) {
                 <li key={item.href} className={`border-b ${light ? "border-black/20" : "border-white/20"}`}>
                   <a
                     href={item.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => { setOpen(false); setSpinning(false); }}
                     className="block py-4 font-telegraf text-[32px] leading-none tracking-[-0.03em] uppercase"
                   >
                     <LineReveal as="span" index={index} className="block">

@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element -- 아이콘 SVG */
 import Image from "next/image";
 import Lenis from "lenis";
 import { Children, useEffect, useId, useRef, useState, type ReactNode } from "react";
@@ -9,18 +8,51 @@ import { REDUCED_MOTION, SMOOTH_SCROLL_OPTIONS } from "@/components/motion/motio
 import { BlockReveal } from "@/components/motion/BlockReveal";
 import { Container } from "@/components/ui/Container";
 import { LogoCcd } from "@/components/ui/LogoCcd";
+import "./faculty-close.css";
+
+/** 교수 상세 닫기 — X가 한 번 회전하는 것처럼 보이도록 반 바퀴 돈다. */
+function FacultyCloseButton({ onClose, className }: { onClose: () => void; className: string }) {
+  const [spinning, setSpinning] = useState(false);
+  const startSpin = () => {
+    if (!window.matchMedia(REDUCED_MOTION).matches) setSpinning(true);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClose}
+      onPointerEnter={(event) => {
+        if (event.pointerType !== "touch") startSpin();
+      }}
+      onFocus={(event) => {
+        if (event.currentTarget.matches(":focus-visible")) startSpin();
+      }}
+      onAnimationEnd={(event) => {
+        if (event.animationName === "faculty-close-spin") setSpinning(false);
+      }}
+      aria-label="닫기"
+      data-spinning={spinning ? "true" : undefined}
+      className={className}
+    >
+      <svg viewBox="0 0 52 52" aria-hidden="true" className="block size-full" fill="none">
+        <line className="faculty-close-backslash" x1="9.91" y1="9.91" x2="42.09" y2="42.09" stroke="#F3183D" strokeWidth="2.6" pathLength={1} />
+        <line className="faculty-close-slash" x1="42.09" y1="9.91" x2="9.91" y2="42.09" stroke="#F3183D" strokeWidth="2.6" pathLength={1} />
+      </svg>
+    </button>
+  );
+}
 
 /** 섹션 제목 + 하단 구분선 (PC 26px / Mo 22px) */
 function SectionTitle({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
   return (
-    <div className="faculty-reveal-mask">
-      <div className="faculty-reveal-item flex flex-col gap-1.5 md:gap-2">
-        <div className="flex items-center gap-1.5 md:gap-2">
+    <div className="faculty-section-title flex flex-col gap-1.5 md:gap-2">
+      <div className="faculty-reveal-mask">
+        <div className="faculty-reveal-item faculty-section-heading flex items-center gap-1.5 md:gap-2">
           <h3 className="flex-1 font-telegraf text-[22px] leading-[1.06] md:text-[26px]">{children}</h3>
           {aside}
         </div>
-        <hr className="border-0 border-t border-white/50 md:border-white" />
       </div>
+      <hr className="faculty-section-rule border-0 border-t border-white/50 md:border-white" />
     </div>
   );
 }
@@ -78,11 +110,10 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
             }}
             className="relative flex size-8 shrink-0 items-center justify-center hover:opacity-70 md:size-10"
           >
-            <img
-              src={open ? "/icons/minus-white.svg" : "/icons/plus-white.svg"}
-              alt=""
-              className="block w-[20.8px] md:w-[26px]"
-            />
+            <svg aria-hidden="true" viewBox="0 0 26 26" fill="none" className="faculty-accordion-icon block w-[20.8px] md:w-[26px]">
+              <path d="M0 13h26" stroke="white" />
+              <path className="faculty-accordion-vertical" d="M13 0v26" stroke="white" />
+            </svg>
           </button>
         }
       >
@@ -355,19 +386,10 @@ export function FacultyModal({ person, onClose }: { person: Faculty | null; onCl
           {/* Mobile: 상단 바 (로고 + 닫기) */}
           <div className="sticky top-0 z-10 flex items-center justify-between bg-black px-[23px] py-4 md:hidden">
             <LogoCcd width={44.386} className="text-white" />
-            <button type="button" onClick={onClose} aria-label="닫기" className="size-8">
-              <img src="/icons/close.svg" alt="" className="block size-8" />
-            </button>
+            <FacultyCloseButton onClose={onClose} className="size-8" />
           </div>
           {/* Tablet+: 오른쪽 위 닫기 */}
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="닫기"
-            className="fixed top-10 right-10 z-10 hidden size-[52px] hover:opacity-70 md:block"
-          >
-            <img src="/icons/close.svg" alt="" className="block size-[52px]" />
-          </button>
+          <FacultyCloseButton onClose={onClose} className="fixed top-10 right-10 z-10 hidden size-[52px] md:block" />
 
           <Container className="pt-0 pb-[90px] md:pt-[124px] md:pb-[100px]">
             <Detail key={person.slug} person={person} />

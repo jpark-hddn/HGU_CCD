@@ -1,0 +1,28 @@
+html {
+  scrollbar-gutter: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .faculty-close-backslash,
+  .faculty-close-slash {
+    stroke-dasharray: 1;
+    animation: faculty-close-draw 900ms cubic-bezier(.45, 0, .2, 1) both;
+  }
+
+  .faculty-close-slash {
+    animation-delay: 280ms;
+  }
+
+  [data-spinning="true"] svg {
+    animation: faculty-close-spin 1s cubic-bezier(.45, 0, .2, 1);
+  }
+}
+
+@keyframes faculty-close-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes faculty-close-spin {
+  to { transform: rotate(180deg); }
+}
