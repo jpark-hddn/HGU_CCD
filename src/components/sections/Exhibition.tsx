@@ -118,7 +118,9 @@ export async function Exhibition() {
         <ul className="flex flex-col gap-2">
           {exhibitions.slice(0, 5).map((item) => (
             <li key={item.year} className="flex flex-col gap-2 border-b border-line pb-2">
-              <ExhibitionMobileCard item={item} />
+              <Link href={`/exhibitions/${item.year}`} aria-label={`${item.year} ${item.name} 전시 상세 보기`} className="block">
+                <ExhibitionMobileCard item={item} />
+              </Link>
             </li>
           ))}
         </ul>
