@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { LineReveal } from "@/components/motion/LineReveal";
 
 /** 섹션 타이틀 + 하단 구분선 (PC 40px / Mo 32px) */
 export function SectionHeading({
@@ -19,12 +20,13 @@ export function SectionHeading({
   return (
     <div className={`flex w-full flex-col gap-2 ${className}`}>
       <div className="flex w-full items-center gap-2">
-        <h2
+        <LineReveal
+          as="h2"
           id={id}
           className="min-w-0 flex-1 font-telegraf text-[32px] leading-none tracking-[-0.03em] md:text-[40px]"
         >
           {title}
-        </h2>
+        </LineReveal>
         {aside}
       </div>
       <hr className="w-full border-0 border-t border-line" />
