@@ -1,0 +1,66 @@
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) and (view-timeline-name: --intro-scene) and (animation-range: exit 0% exit 100%) {
+    .intro-scene-boundary {
+      view-timeline-name: --intro-scene;
+      view-timeline-axis: block;
+      view-timeline-inset: 0px;
+    }
+
+    .intro-scene-content {
+      --intro-distance: var(--intro-strength-percent);
+      animation: intro-scene-scroll linear both;
+      animation-timeline: --intro-scene;
+      animation-range: contain 0% exit 100%;
+      will-change: transform;
+    }
+
+    @media (max-width: 1079px) {
+      .intro-scene-content {
+        --intro-distance: min(var(--intro-strength-percent), var(--intro-small-viewport-distance));
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
+
+  @supports not ((animation-timeline: view()) and (view-timeline-name: --intro-scene) and (animation-range: exit 0% exit 100%)) {
+    .intro-scene-boundary {
+      --intro-pin-distance: var(--intro-scene-distance, 0px);
+      --intro-viewport-height: 100vh;
+      --intro-viewport-quarter: var(--intro-viewport-distance);
+      margin-bottom: calc(0px - var(--intro-pin-distance));
+    }
+
+    .intro-scene-boundary::after {
+      content: "";
+      display: block;
+      height: var(--intro-pin-distance);
+    }
+
+    @supports (height: 100svh) {
+      .intro-scene-boundary {
+        --intro-viewport-height: 100svh;
+        --intro-viewport-quarter: var(--intro-small-viewport-distance);
+      }
+    }
+
+    .intro-scene-content {
+      position: sticky;
+      top: 0;
+    }
+
+    @media (max-width: 1079px) {
+      .intro-scene-boundary {
+        --intro-pin-distance: min(var(--intro-viewport-quarter), var(--intro-scene-distance, 0px));
+      }
+
+      .intro-scene-content {
+        top: min(0px, calc(var(--intro-viewport-height) - var(--intro-scene-height, 0px)));
+      }
+    }
+  }
+}
+
+@keyframes intro-scene-scroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(var(--intro-distance)); }
+}

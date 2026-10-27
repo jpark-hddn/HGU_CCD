@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Lenis from "lenis";
-import { Children, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { Children, useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
 import type { CvEntry, Faculty } from "@/types/faculty";
 import { REDUCED_MOTION, SMOOTH_SCROLL_OPTIONS } from "@/components/motion/motion";
 import { BlockReveal } from "@/components/motion/BlockReveal";
@@ -11,8 +11,9 @@ import { LogoCcd } from "@/components/ui/LogoCcd";
 import "./faculty-close.css";
 
 /** 교수 상세 닫기 — X가 한 번 회전하는 것처럼 보이도록 반 바퀴 돈다. */
-function FacultyCloseButton({ onClose, className }: { onClose: () => void; className: string }) {
+function FacultyCloseButton({ onClose, className, opening }: { onClose: () => void; className: string; opening: RefObject<boolean> }) {
   const [spinning, setSpinning] = useState(false);
+  const hovered = useRef(false);
   const startSpin = () => {
     if (!window.matchMedia(REDUCED_MOTION).matches) setSpinning(true);
   };
@@ -21,11 +22,15 @@ function FacultyCloseButton({ onClose, className }: { onClose: () => void; class
     <button
       type="button"
       onClick={onClose}
-      onPointerEnter={(event) => {
-        if (event.pointerType !== "touch") startSpin();
+      onPointerMove={(event) => {
+        if (!hovered.current && !opening.current && event.pointerType !== "touch" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+          hovered.current = true;
+          startSpin();
+        }
       }}
+      onPointerLeave={() => { hovered.current = false; }}
       onFocus={(event) => {
-        if (event.currentTarget.matches(":focus-visible")) startSpin();
+        if (!opening.current && event.currentTarget.matches(":focus-visible")) startSpin();
       }}
       onAnimationEnd={(event) => {
         if (event.animationName === "faculty-close-spin") setSpinning(false);
@@ -325,15 +330,21 @@ function Detail({ person }: { person: Faculty }) {
 export function FacultyModal({ person, onClose }: { person: Faculty | null; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const opening = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     if (person && !el.open) {
-      el.showModal();
-      el.scrollTop = 0;
-      // 열릴 때 닫기 버튼 대신 모달 자체에 포커스 (닫기 버튼에 포커스 테두리가 생기지 않게)
-      el.focus();
+      opening.current = true;
+      try {
+        el.showModal();
+        el.scrollTop = 0;
+        // 열릴 때 닫기 버튼 대신 모달 자체에 포커스한다.
+        el.focus();
+      } finally {
+        opening.current = false;
+      }
     }
     if (!person && el.open) el.close();
   }, [person]);
@@ -386,10 +397,10 @@ export function FacultyModal({ person, onClose }: { person: Faculty | null; onCl
           {/* Mobile: 상단 바 (로고 + 닫기) */}
           <div className="sticky top-0 z-10 flex items-center justify-between bg-black px-[23px] py-4 md:hidden">
             <LogoCcd width={44.386} className="text-white" />
-            <FacultyCloseButton onClose={onClose} className="size-8" />
+            <FacultyCloseButton onClose={onClose} opening={opening} className="size-8" />
           </div>
           {/* Tablet+: 오른쪽 위 닫기 */}
-          <FacultyCloseButton onClose={onClose} className="fixed top-10 right-10 z-10 hidden size-[52px] md:block" />
+          <FacultyCloseButton onClose={onClose} opening={opening} className="fixed top-10 right-10 z-10 hidden size-[52px] md:block" />
 
           <Container className="pt-0 pb-[90px] md:pt-[124px] md:pb-[100px]">
             <Detail key={person.slug} person={person} />

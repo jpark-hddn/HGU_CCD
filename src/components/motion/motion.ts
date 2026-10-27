@@ -14,8 +14,6 @@ export const MOTION = {
   revealThreshold: 0.08,
   /** 배너·소개 영역이 스크롤의 75% 속도로 움직임 (= 25% 만큼 아래로 밀림) */
   scrollStrength: 0.25,
-  /** 이 너비 이하에서는 긴 소개글이 화면에 다 들어온 뒤부터 겹치기 시작 (lg 1080 미만) */
-  mobileMaxWidth: 1079,
 } as const;
 
 export const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
