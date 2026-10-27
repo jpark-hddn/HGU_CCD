@@ -13,6 +13,16 @@
     animation: faculty-line-reveal var(--reveal-duration) var(--reveal-easing) var(--reveal-delay) both;
     will-change: transform;
   }
+
+  /* 펼친 내용은 클릭한 순간부터 항목별로 같은 효과를 다시 재생한다. */
+  [data-expanded-reveal="true"] .faculty-reveal-mask {
+    overflow: clip;
+  }
+
+  [data-expanded-reveal="true"] .faculty-reveal-item {
+    animation: faculty-line-reveal var(--reveal-duration) var(--reveal-easing) both;
+    will-change: transform;
+  }
 }
 
 @keyframes faculty-line-reveal {

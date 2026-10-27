@@ -53,6 +53,7 @@ function Section({ title, children, className = "" }: { title: string; children:
 /** Publications · Works — +/− 로 펼치고 접는 섹션 */
 function Collapsible({ title, children }: { title: string; children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [revealing, setRevealing] = useState(false);
   const id = useId();
   return (
     <section className="flex flex-col gap-2">
@@ -63,7 +64,10 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
             aria-expanded={open}
             aria-controls={id}
             aria-label={`${title} ${open ? "접기" : "펼치기"}`}
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => {
+              setRevealing(!open && !window.matchMedia(REDUCED_MOTION).matches);
+              setOpen(!open);
+            }}
             className="relative flex size-8 shrink-0 items-center justify-center hover:opacity-70 md:size-10"
           >
             <img
@@ -76,7 +80,17 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
       >
         {title}
       </SectionTitle>
-      <div id={id} hidden={!open} className="flex flex-col gap-2">
+      <div
+        id={id}
+        hidden={!open}
+        data-expanded-reveal={open && revealing ? "true" : undefined}
+        className="flex flex-col gap-2"
+        onAnimationEnd={(event) => {
+          if (!(event.target instanceof HTMLElement) || !event.target.classList.contains("faculty-reveal-item") || event.animationName !== "faculty-line-reveal") return;
+          event.stopPropagation();
+          setRevealing(false);
+        }}
+      >
         {children}
       </div>
     </section>
@@ -233,10 +247,16 @@ function Detail({ person }: { person: Faculty }) {
             {d.publications.map((group, i) => (
               <div key={group.label ?? i} className="flex flex-col gap-2">
                 {group.label && (
-                  <h4 className="font-telegraf text-[14px] leading-[1.06] uppercase md:text-[16px]">{group.label}</h4>
+                  <div className="faculty-reveal-mask">
+                    <h4 className="faculty-reveal-item font-telegraf text-[14px] leading-[1.06] uppercase md:text-[16px]">{group.label}</h4>
+                  </div>
                 )}
                 <EntryList entries={group.entries} />
-                {group.note && <p className="text-[14px] leading-[1.6] md:text-[16px]">{group.note}</p>}
+                {group.note && (
+                  <div className="faculty-reveal-mask">
+                    <p className="faculty-reveal-item text-[14px] leading-[1.6] md:text-[16px]">{group.note}</p>
+                  </div>
+                )}
               </div>
             ))}
           </Collapsible>
