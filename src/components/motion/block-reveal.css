@@ -13,31 +13,14 @@
   overflow: clip;
 }
 
-.faculty-accordion-vertical {
-  transform-origin: 13px 13px;
-}
-
-button[aria-expanded="true"] .faculty-accordion-vertical {
-  transform: rotate(90deg);
+button[aria-expanded="true"] .faculty-accordion-icon {
+  transform: rotate(180deg);
 }
 
 /* 긴 목록도 한 줄 크기씩 가려진 곳에서 올라오도록 한다. */
 @media (prefers-reduced-motion: no-preference) {
   .faculty-accordion-icon {
-    transition: transform 1000ms cubic-bezier(.45, 0, .2, 1) 300ms;
-  }
-
-  button[aria-expanded="true"] .faculty-accordion-icon {
-    transform: rotate(180deg);
-    transition-delay: 0ms;
-  }
-
-  .faculty-accordion-vertical {
-    transition: transform 800ms cubic-bezier(.45, 0, .2, 1);
-  }
-
-  button[aria-expanded="true"] .faculty-accordion-vertical {
-    transition-delay: 450ms;
+    transition: transform 1000ms cubic-bezier(.45, 0, .2, 1);
   }
 
   .faculty-expand {

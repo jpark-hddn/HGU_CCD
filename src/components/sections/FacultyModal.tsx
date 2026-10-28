@@ -87,7 +87,7 @@ function Section({ title, children, className = "" }: { title: string; children:
   );
 }
 
-/** Publications · Works — +/− 로 펼치고 접는 섹션 */
+/** Publications · Works — 화살표로 펼치고 접는 섹션 */
 function Collapsible({ title, children }: { title: string; children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [revealing, setRevealing] = useState(false);
@@ -115,10 +115,15 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
             }}
             className="relative flex size-8 shrink-0 items-center justify-center hover:opacity-70 md:size-10"
           >
-            <svg aria-hidden="true" viewBox="0 0 26 26" fill="none" className="faculty-accordion-icon block w-[20.8px] md:w-[26px]">
-              <path d="M0 13h26" stroke="white" />
-              <path className="faculty-accordion-vertical" d="M13 0v26" stroke="white" />
-            </svg>
+            <span aria-hidden="true" className="flex size-10 shrink-0 scale-80 items-center justify-center md:scale-100">
+              <span className="faculty-accordion-icon flex size-10 items-center justify-center">
+                <span className="ml-[2px] flex size-9 items-center justify-center">
+                  {/* Figma의 드롭다운 화살표를 원래 크기와 각도로 사용한다. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/faculty-dropdown.svg" alt="" className="rotate-45" />
+                </span>
+              </span>
+            </span>
           </button>
         }
       >

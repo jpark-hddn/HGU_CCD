@@ -22,11 +22,8 @@ export default async function ExhibitionsPage() {
       <main className="flex-1">
         <Container>
           {/* Mobile */}
-          <div className="flex flex-col gap-5 pt-10 pb-10 md:hidden">
-            <div className="flex flex-col gap-3 border-b border-line pb-0">
-              <h1 className="font-telegraf text-[34px] leading-none tracking-[-0.03em]">Exhibitions</h1>
-              <p className="pb-3 text-[16px] leading-none tracking-[-0.03em]">한동대학교 콘텐츠융합디자인학부 졸업 작품전</p>
-            </div>
+          <div className="pt-10 pb-[100px] md:hidden">
+            <h1 className="sr-only">Exhibitions — 한동대학교 콘텐츠융합디자인학부 졸업 작품전</h1>
             <ExhibitionListMobile items={exhibitions} />
           </div>
 
