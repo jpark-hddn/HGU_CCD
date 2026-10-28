@@ -1,4 +1,5 @@
-import Image from "next/image";
+import { ExhibitionPoster } from "./ExhibitionPoster";
+import { AllExhibitionsLink, ExhibitionNavigation, ExhibitionSideNavigation } from "./ExhibitionNavigation";
 import type { Exhibition } from "@/types/exhibition";
 import { ArrowUpRight } from "@/components/ui/ArrowUpRight";
 import { Container } from "@/components/ui/Container";
@@ -97,7 +98,7 @@ function Alumni({ advisors, alumni = [] }: { advisors?: string[]; alumni?: Exhib
 }
 
 /** 전시 상세 — Figma PC 46:8026(링크 있음) / 46:8183(링크 없음), 모바일 6:2393 등 연도별 시안 (검정 배경) */
-export function ExhibitionDetail({ item }: { item: Exhibition }) {
+export function ExhibitionDetail({ item, previous, next }: { item: Exhibition; previous?: Exhibition; next?: Exhibition }) {
   const { width, height } = item.size ?? DEFAULT_SIZE;
   const paragraphs = item.body.filter((p) => !p.emphasis);
   const alt = `${item.year} 졸업 작품전 ${item.name} 포스터`;
@@ -106,8 +107,9 @@ export function ExhibitionDetail({ item }: { item: Exhibition }) {
     <>
       {/* Mobile / Tablet (<1080) */}
       <article className="bg-black text-white lg:hidden">
-        <div className="relative w-full bg-neutral-900" style={{ aspectRatio: `${width} / ${height}` }}>
-          <Image src={item.image} alt={alt} fill sizes="100vw" className="object-cover" priority />
+        <ExhibitionPoster src={item.image} alt={alt} width={width} height={height} mobile />
+        <div className="px-[18px] pt-[21px]">
+          <ExhibitionNavigation previous={previous} next={next} />
         </div>
         <Container className="flex flex-col gap-[51px] py-10">
           <header className="flex flex-col gap-4 border-b border-white pb-4">
@@ -149,10 +151,14 @@ export function ExhibitionDetail({ item }: { item: Exhibition }) {
             <Alumni advisors={item.advisors} alumni={item.alumni} />
           ) : null}
         </Container>
+        <Container className="pt-2 pb-[21px]">
+          <AllExhibitionsLink />
+        </Container>
       </article>
 
       {/* Desktop (≥1080): 검정 배경 */}
       <article className="hidden bg-black text-white lg:block">
+        <ExhibitionSideNavigation previous={previous} next={next} />
         <Container className="flex items-start justify-between gap-10 py-[100px]">
           <div className="flex w-1/2 max-w-[600px] min-w-0 flex-col gap-[100px]">
             <div className="flex flex-col gap-10">
@@ -188,12 +194,10 @@ export function ExhibitionDetail({ item }: { item: Exhibition }) {
             {item.alumni?.length || item.advisors?.length ? (
               <Alumni advisors={item.advisors} alumni={item.alumni} />
             ) : null}
+            <div className="-mt-8"><AllExhibitionsLink /></div>
           </div>
-          <div
-            className="relative w-1/2 max-w-[600px] shrink-0 bg-neutral-900"
-            style={{ aspectRatio: `${width} / ${height}` }}
-          >
-            <Image src={item.image} alt={alt} fill sizes="(min-width: 1280px) 600px, 50vw" className="object-cover" />
+          <div className="flex w-1/2 max-w-[579px] shrink-0 flex-col gap-[20px]">
+            <ExhibitionPoster src={item.image} alt={alt} width={width} height={height} />
           </div>
         </Container>
       </article>

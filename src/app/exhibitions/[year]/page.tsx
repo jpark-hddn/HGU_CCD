@@ -22,14 +22,21 @@ export async function generateMetadata({ params }: PageProps<"/exhibitions/[year
 
 export default async function ExhibitionPage({ params }: PageProps<"/exhibitions/[year]">) {
   const { year } = await params;
-  const item = /^\d{4}$/.test(year) ? await getExhibition(Number(year)) : null;
+  const [item, exhibitions] = await Promise.all([
+    /^\d{4}$/.test(year) ? getExhibition(Number(year)) : Promise.resolve(null),
+    getExhibitions(),
+  ]);
   if (!item) notFound();
+  const ordered = [...exhibitions].sort((a, b) => b.year - a.year);
+  const index = ordered.findIndex((exhibition) => exhibition.year === item.year);
+  const previous = index >= 0 ? ordered[index + 1] : undefined;
+  const next = index > 0 ? ordered[index - 1] : undefined;
 
   return (
     <>
       <Header />
       <main className="flex-1 bg-black">
-        <ExhibitionDetail item={item} />
+        <ExhibitionDetail key={item.year} item={item} previous={previous} next={next} />
       </main>
       <Footer dark />
     </>

@@ -1,0 +1,27 @@
+@media (prefers-reduced-motion: no-preference) {
+  .exhibition-poster-frame {
+    clip-path: inset(6% 3%);
+  }
+
+  .exhibition-poster-image {
+    transform: scale(1.12);
+  }
+
+  .exhibition-poster[data-reveal-state="revealing"] .exhibition-poster-frame {
+    animation: exhibition-frame-reveal 1.4s cubic-bezier(.2, .7, .2, 1) both;
+  }
+
+  .exhibition-poster[data-reveal-state="revealing"] .exhibition-poster-image {
+    animation: exhibition-image-reveal 1.8s cubic-bezier(.2, .7, .2, 1) both;
+  }
+}
+
+@keyframes exhibition-frame-reveal {
+  from { clip-path: inset(6% 3%); }
+  to { clip-path: inset(0); }
+}
+
+@keyframes exhibition-image-reveal {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
+}
