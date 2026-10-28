@@ -53,6 +53,12 @@
   }
 }
 
+/* 검은 전시 상세에서는 헤더 전환이나 스크롤 중 바탕도 검게 유지한다. */
+html:has(body > .exhibition-detail-page:not([style*="display: none"])),
+body:has(> .exhibition-detail-page:not([style*="display: none"])) {
+  background-color: #000;
+}
+
 /* 링크 이동은 브라우저에 맡기고, 동작 줄이기 설정에서는 즉시 이동한다. */
 @media (prefers-reduced-motion: no-preference) {
   html {

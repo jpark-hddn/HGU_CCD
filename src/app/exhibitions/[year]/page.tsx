@@ -35,7 +35,7 @@ export default async function ExhibitionPage({ params }: PageProps<"/exhibitions
   return (
     <>
       <Header />
-      <main className="flex-1 bg-black">
+      <main className="exhibition-detail-page flex-1 bg-black">
         <ExhibitionDetail key={item.year} item={item} previous={previous} next={next} />
       </main>
       <Footer dark />
