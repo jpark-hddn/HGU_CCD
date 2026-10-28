@@ -21,7 +21,7 @@ function ArchiveLink({ href, full = false }: { href: string; full?: boolean }) {
       <span
         className={`font-telegraf leading-none uppercase [text-box:trim-both_cap_alphabetic] ${full ? "text-[20px]" : "text-[22.857px]"}`}
       >
-        Go to archive
+        Online exhibition
       </span>
       <ArrowUpRight size={20} color="white" className="transition-[filter] group-hover:invert group-focus-visible:invert motion-reduce:transition-none" />
       {external && <span className="sr-only">(온라인 전시, 새 탭에서 열림)</span>}
