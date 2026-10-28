@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Fragment } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Container } from "@/components/ui/Container";
@@ -30,12 +29,7 @@ export default async function ExhibitionsPage() {
           {/* Tablet+ */}
           <div className="hidden md:block">
             <h1 className="sr-only">Exhibitions — 한동대학교 콘텐츠융합디자인학부 졸업 작품전</h1>
-            {exhibitions.map((item, i) => (
-              <Fragment key={item.year}>
-                {i > 0 && <hr className="border-0 border-t border-line" />}
-                <ExhibitionRow item={item} reverse={i % 2 === 1} />
-              </Fragment>
-            ))}
+            {exhibitions.map((item) => <ExhibitionRow key={item.year} item={item} />)}
           </div>
         </Container>
       </main>
