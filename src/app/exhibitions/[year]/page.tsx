@@ -39,6 +39,8 @@ export default async function ExhibitionPage({ params }: PageProps<"/exhibitions
         <ExhibitionDetail key={item.year} item={item} previous={previous} next={next} />
       </main>
       <Footer dark />
+      {/* 하단 고정 이동 버튼이 푸터를 가리지 않도록 마지막 여백을 둔다. */}
+      <div aria-hidden="true" className="h-[calc(76px+env(safe-area-inset-bottom))] bg-black lg:hidden" />
     </>
   );
 }

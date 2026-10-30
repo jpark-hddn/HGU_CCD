@@ -1,5 +1,5 @@
 import { ExhibitionPoster } from "./ExhibitionPoster";
-import { AllExhibitionsLink, ExhibitionNavigation, ExhibitionSideNavigation } from "./ExhibitionNavigation";
+import { AllExhibitionsLink, MobileExhibitionNavigation, ExhibitionSideNavigation } from "./ExhibitionNavigation";
 import type { Exhibition } from "@/types/exhibition";
 import { ArrowUpRight } from "@/components/ui/ArrowUpRight";
 import { Container } from "@/components/ui/Container";
@@ -108,9 +108,7 @@ export function ExhibitionDetail({ item, previous, next }: { item: Exhibition; p
       {/* Mobile / Tablet (<1080) */}
       <article className="bg-black text-white lg:hidden">
         <ExhibitionPoster src={item.image} alt={alt} width={width} height={height} mobile />
-        <div className="px-[18px] pt-[21px]">
-          <ExhibitionNavigation previous={previous} next={next} />
-        </div>
+        <MobileExhibitionNavigation previous={previous} next={next} />
         <Container className="flex flex-col gap-[51px] py-10">
           <header className="flex flex-col gap-4 border-b border-white pb-4">
             <h1 className="font-telegraf text-[40px] leading-none uppercase">

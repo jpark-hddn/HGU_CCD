@@ -41,6 +41,30 @@ export function ExhibitionNavigation({ previous, next }: { previous?: Adjacent; 
   );
 }
 
+/** 모바일 전시 상세에서 이전·다음 전시로 이동하는 하단 고정 버튼. */
+export function MobileExhibitionNavigation({ previous, next }: { previous?: Adjacent; next?: Adjacent }) {
+  return (
+    <nav aria-label="이전 및 다음 전시" className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between bg-black px-4 pt-3 pb-[max(12px,env(safe-area-inset-bottom))] lg:hidden">
+      {([previous, next] as const).map((item, index) => {
+        const label = index === 0 ? "이전" : "다음";
+        const icon = (
+          <span className={index === 0 ? "rotate-180" : undefined}>
+            {/* Figma의 화살표 원본을 각 방향으로 배치한다. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/go-to-top.svg" alt="" className="[transform:scaleY(-1)_rotate(-45deg)] transition-[filter] group-hover:invert group-focus-visible:invert" />
+          </span>
+        );
+        const style = "group flex h-[52px] w-[60px] items-center justify-center bg-black transition-colors hover:bg-white focus-visible:bg-white";
+        return item ? (
+          <Link key={label} href={`/exhibitions/${item.year}`} aria-label={`${label} 전시: ${item.year} ${item.name}`} className={style}>{icon}</Link>
+        ) : (
+          <span key={label} aria-hidden="true" className={`${style} opacity-35`}>{icon}</span>
+        );
+      })}
+    </nav>
+  );
+}
+
 export function AllExhibitionsLink() {
   return (
     <Link href="/exhibitions" className="group inline-flex items-center gap-[10px] self-start border border-white p-[10px] lg:px-[20px] lg:py-[16px] font-telegraf text-[20px] leading-none text-white uppercase lg:text-[22.86px] transition-colors hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black motion-reduce:transition-none">
@@ -61,11 +85,12 @@ export function ExhibitionSideNavigation({ previous, next }: { previous?: Adjace
           key={item.year}
           href={`/exhibitions/${item.year}`}
           aria-label={`${index === 0 ? "이전" : "다음"} 전시: ${item.year} ${item.name}`}
-          className={`group pointer-events-auto absolute top-[-22px] flex h-[44px] w-[44px] items-center 2xl:top-[-30.2245px] 2xl:h-[60.449px] 2xl:w-[59.086px] justify-center border border-white bg-black transition-colors hover:bg-white focus-visible:bg-white motion-reduce:transition-none ${index === 0 ? "left-[8px] 2xl:left-[56px]" : "right-[8px] 2xl:right-[56px]"}`}
+          className={`group pointer-events-auto absolute top-[-22px] flex h-[44px] w-[44px] items-center 2xl:top-[-31px] 2xl:size-[62px] justify-center bg-black transition-colors hover:bg-white focus-visible:bg-white motion-reduce:transition-none ${index === 0 ? "left-[8px] 2xl:left-[50px]" : "right-[8px] 2xl:right-[53px]"}`}
         >
-          {/* Figma 원본 화살표 크기를 유지하고 이전 전시는 반대 방향으로 돌린다. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icons/exhibition-side-arrow.svg" alt="" className={`transition-[filter] group-hover:brightness-0 group-focus-visible:brightness-0 motion-reduce:transition-none ${index === 0 ? "rotate-180" : ""}`} />
+          <span className={`${index === 0 ? "rotate-180" : ""} scale-[0.7] 2xl:scale-100`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`/icons/exhibition-chevron-${index === 0 ? "previous" : "next"}.svg`} alt="" className="[transform:scaleY(-1)_rotate(-45deg)] transition-[filter] group-hover:invert group-focus-visible:invert motion-reduce:transition-none" />
+          </span>
         </Link>
       ))}
     </nav>

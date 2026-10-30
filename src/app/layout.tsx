@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { GoToTop } from "@/components/ui/GoToTop";
 import "@fontsource/nanum-myeongjo/400.css";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "lenis/dist/lenis.css";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <SmoothScroll />
         {children}
+        <GoToTop />
       </body>
     </html>
   );
