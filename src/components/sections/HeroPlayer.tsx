@@ -6,6 +6,7 @@ import "./hero-player.css";
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 const FADE_SECONDS = 1.1;
+const VIDEO_SECONDS = 3;
 
 function useReducedMotion() {
   return useSyncExternalStore(
@@ -63,7 +64,11 @@ export function HeroPlayer({ videos }: { videos: BannerVideo[] }) {
     const active = videoRefs.current[activeSlot];
     const nextSlot = 1 - activeSlot;
     const next = videoRefs.current[nextSlot];
-    const ending = active && (active.ended || (Number.isFinite(active.duration) && active.duration - active.currentTime <= FADE_SECONDS));
+    // 3초마다 다음 영상으로 전환한다. 영상이 더 짧으면 끝나기 전에 전환한다.
+    const transitionAt = active && Number.isFinite(active.duration)
+      ? Math.min(VIDEO_SECONDS, Math.max(0, active.duration - FADE_SECONDS))
+      : VIDEO_SECONDS;
+    const ending = active && (active.ended || active.currentTime >= transitionAt);
     if (!ending || !next || next.readyState < 2) return;
 
     transitionInProgress.current = true;
