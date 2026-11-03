@@ -11,7 +11,7 @@ export async function Hero() {
 
   return (
     <section aria-label="메인 배너 — 학생 작품" className="relative w-full overflow-hidden bg-black">
-      <div className="relative aspect-[402/582] w-full md:aspect-[1919/706]">
+      <div className="relative isolate aspect-[402/582] w-full overflow-hidden md:aspect-[1919/706]">
         <HeroPlayer videos={videos} />
       </div>
     </section>

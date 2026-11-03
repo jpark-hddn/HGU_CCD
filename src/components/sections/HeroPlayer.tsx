@@ -71,7 +71,9 @@ export function HeroPlayer({ videos }: { videos: BannerVideo[] }) {
       ? Math.min(displaySeconds, Math.max(0, active.duration - FADE_SECONDS))
       : displaySeconds;
     const ending = active && (active.ended || active.currentTime >= transitionAt);
-    if (!ending || !next || next.readyState < 2) return;
+    // iOS는 preload="auto"를 무시할 수 있으므로 readyState가 낮아도 재생을 요청한다.
+    // play()가 실제로 시작되기 전까지 현재 영상을 유지해 빈 화면을 방지한다.
+    if (!ending || !next) return;
 
     transitionInProgress.current = true;
     next.play().then(() => {
@@ -102,7 +104,7 @@ export function HeroPlayer({ videos }: { videos: BannerVideo[] }) {
       {/* 포스터 — 화면 크기별로 다른 이미지를 쓰려고 video poster 대신 picture 로 깔아둠 */}
       <picture key={`poster-${current.id}`}>
         <source media="(min-width: 768px)" srcSet={current.pc.poster} />
-        <img src={current.mo.poster} alt="" className="absolute inset-0 block h-full w-full object-cover" />
+        <img src={current.mo.poster} alt="" className="hero-poster-image absolute inset-0 block h-full w-full object-cover" />
       </picture>
 
       {(videos.length > 1 ? slots : [slots[0]]).map((videoIndex, slot) => {
@@ -130,7 +132,9 @@ export function HeroPlayer({ videos }: { videos: BannerVideo[] }) {
             }}
             aria-hidden={slot !== activeSlot}
             aria-label={video.credit ? `학생 작품 영상 — ${video.credit}` : "학생 작품 영상"}
-            style={{ opacity: visible ? 1 : 0, zIndex: slot === incomingSlot ? 2 : slot === activeSlot ? 1 : 0 }}
+            // 완전히 투명한 비디오는 모바일 브라우저가 재생을 중단할 수 있어,
+            // 대기 영상은 보이지 않는 수준으로만 남겨 현재 영상 아래에 둔다.
+            style={{ opacity: visible ? 1 : 0.001, zIndex: slot === incomingSlot ? 2 : slot === activeSlot ? 1 : 0 }}
             className="hero-video absolute inset-0 block h-full w-full object-cover"
           >
             <source media="(min-width: 768px)" src={video.pc.src} type="video/mp4" />
