@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { LineReveal } from "@/components/motion/LineReveal";
+import "./intro-gradient.css";
 
 /** 배너 아래 학부 소개 — 제목 → 영문 → 국문 순으로 한 줄씩 등장 */
 export function Intro() {
@@ -9,7 +10,7 @@ export function Intro() {
         <LineReveal
           as="h1"
           index={0}
-          className="font-telegraf text-[36px] leading-[1.2] tracking-[-0.02em] md:min-w-0 md:flex-1 lg:text-[40px] 2xl:w-[716px] 2xl:flex-none 2xl:text-[64px]"
+          className="intro-gradient font-telegraf text-[36px] leading-[1.2] tracking-[-0.02em] md:min-w-0 md:flex-1 lg:text-[40px] 2xl:w-[716px] 2xl:flex-none 2xl:text-[64px]"
         >
           <span className="underline decoration-from-font underline-offset-auto">
             The School of Content Convergence Design:

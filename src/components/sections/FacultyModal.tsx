@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Lenis from "lenis";
 import { Children, useEffect, useId, useRef, useState, type ReactNode, type RefObject } from "react";
-import type { CvEntry, Faculty } from "@/types/faculty";
+import type { CvEntry, Faculty, FacultyDetail } from "@/types/faculty";
 import { REDUCED_MOTION, SMOOTH_SCROLL_OPTIONS } from "@/components/motion/motion";
 import { BlockReveal } from "@/components/motion/BlockReveal";
 import { Container } from "@/components/ui/Container";
@@ -87,8 +87,8 @@ function Section({ title, children, className = "" }: { title: string; children:
   );
 }
 
-/** Publications · Works — 화살표로 펼치고 접는 섹션 */
-function Collapsible({ title, children }: { title: string; children: ReactNode }) {
+/** 처음 다섯 항목은 보여주고 나머지만 부드럽게 펼치고 접는다. */
+function Collapsible({ title, preview, hasMore, children }: { title: string; preview: ReactNode; hasMore: boolean; children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [revealing, setRevealing] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -97,7 +97,7 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
   return (
     <section className="flex flex-col">
       <SectionTitle
-        aside={
+        aside={hasMore ? (
           <button
             type="button"
             aria-expanded={open}
@@ -125,10 +125,12 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
               </span>
             </span>
           </button>
-        }
+        ) : undefined}
       >
         {title}
       </SectionTitle>
+      <div className="flex flex-col gap-2 pt-2">{preview}</div>
+      {hasMore && (
       <div
         id={id}
         ref={panelRef}
@@ -145,8 +147,47 @@ function Collapsible({ title, children }: { title: string; children: ReactNode }
           <div className="flex flex-col gap-2 pt-2">{children}</div>
         </div>
       </div>
+      )}
     </section>
   );
+}
+
+type PublicationGroup = NonNullable<FacultyDetail["publications"]>[number];
+
+/** 소분류 제목은 개수가 아닌 구분자이므로 논문 항목만 다섯 개까지 센다. */
+function splitPublications(groups: PublicationGroup[]) {
+  let count = 0;
+  const preview: PublicationGroup[] = [];
+  const rest: PublicationGroup[] = [];
+  for (const group of groups) {
+    const take = Math.max(0, Math.min(group.entries.length, 5 - count));
+    if (take > 0 || (group.entries.length === 0 && count < 5)) {
+      preview.push({ ...group, entries: group.entries.slice(0, take), note: take === group.entries.length ? group.note : undefined });
+    }
+    if (take < group.entries.length || (group.entries.length === 0 && count >= 5)) {
+      rest.push({ ...group, label: take > 0 ? undefined : group.label, entries: group.entries.slice(take) });
+    }
+    count += group.entries.length;
+  }
+  return { preview, rest };
+}
+
+function PublicationGroups({ groups }: { groups: PublicationGroup[] }) {
+  return groups.map((group, i) => (
+    <div key={group.label ?? i} className="flex flex-col gap-2">
+      {group.label && (
+        <div className="faculty-reveal-mask">
+          <h4 className="faculty-reveal-item font-telegraf text-[14px] leading-[1.06] uppercase md:text-[16px]">{group.label}</h4>
+        </div>
+      )}
+      <EntryList entries={group.entries} />
+      {group.note && (
+        <div className="faculty-reveal-mask">
+          <p className="faculty-reveal-item text-[14px] leading-[1.6] md:text-[16px]">{group.note}</p>
+        </div>
+      )}
+    </div>
+  ));
 }
 
 function FacultyDetails({ children }: { children: ReactNode }) {
@@ -183,6 +224,7 @@ function FacultyDetails({ children }: { children: ReactNode }) {
 
 function Detail({ person }: { person: Faculty }) {
   const d = person.detail ?? {};
+  const publications = splitPublications(d.publications ?? []);
   const contact = d.contact
     ? ([
         ["연구실", d.contact.office],
@@ -295,32 +337,18 @@ function Detail({ person }: { person: Faculty }) {
           </Section>
         ))}
         {d.publications?.length ? (
-          <Collapsible title="Publications">
-            {d.publications.map((group, i) => (
-              <div key={group.label ?? i} className="flex flex-col gap-2">
-                {group.label && (
-                  <div className="faculty-reveal-mask">
-                    <h4 className="faculty-reveal-item font-telegraf text-[14px] leading-[1.06] uppercase md:text-[16px]">{group.label}</h4>
-                  </div>
-                )}
-                <EntryList entries={group.entries} />
-                {group.note && (
-                  <div className="faculty-reveal-mask">
-                    <p className="faculty-reveal-item text-[14px] leading-[1.6] md:text-[16px]">{group.note}</p>
-                  </div>
-                )}
-              </div>
-            ))}
+          <Collapsible title="Publications" preview={<PublicationGroups groups={publications.preview} />} hasMore={publications.rest.length > 0}>
+            <PublicationGroups groups={publications.rest} />
           </Collapsible>
         ) : null}
         {d.patents?.length ? (
-          <Collapsible title="Patent">
-            <EntryList entries={d.patents} />
+          <Collapsible title="Patent" preview={<EntryList entries={d.patents.slice(0, 5)} />} hasMore={d.patents.length > 5}>
+            <EntryList entries={d.patents.slice(5)} />
           </Collapsible>
         ) : null}
         {d.works?.length ? (
-          <Collapsible title="Works (Recent 5 years)">
-            <EntryList entries={d.works} />
+          <Collapsible title="Works (Recent 5 years)" preview={<EntryList entries={d.works.slice(0, 5)} />} hasMore={d.works.length > 5}>
+            <EntryList entries={d.works.slice(5)} />
           </Collapsible>
         ) : null}
       </FacultyDetails>

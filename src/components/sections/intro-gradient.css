@@ -1,0 +1,31 @@
+/* 소개 제목의 기존 줄별 등장 효과가 끝난 뒤, 은은한 명암이 흐른다. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .intro-gradient[data-reveal="static"],
+  .intro-gradient[data-reveal="pending"],
+  .intro-gradient .reveal-line {
+    background-image: linear-gradient(165deg, #fff 8%, #e3e3e3 35%, #fff 55%, #c4c4c4 80%, #fff 100%);
+    background-size: 260% 100%;
+    background-position: 20% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration-color: #dedede;
+  }
+
+  .intro-gradient .underline {
+    text-decoration-color: #dedede;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .intro-gradient[data-reveal-state="revealed"] .reveal-line {
+      animation: intro-gradient-drift calc(15s + var(--line-index) * 1.1s) ease-in-out infinite alternate;
+      animation-delay: calc(var(--line-index) * -2.3s);
+    }
+  }
+}
+
+@keyframes intro-gradient-drift {
+  0% { background-position: 5% 50%; }
+  45% { background-position: 65% 50%; }
+  100% { background-position: 95% 50%; }
+}

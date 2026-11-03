@@ -194,7 +194,10 @@ export function ExhibitionDetail({ item, previous, next }: { item: Exhibition; p
             ) : null}
             <div className="-mt-8"><AllExhibitionsLink /></div>
           </div>
-          <div className="flex w-1/2 max-w-[579px] shrink-0 flex-col gap-[20px]">
+          <div
+            className="sticky top-[100px] flex w-1/2 shrink-0 flex-col gap-[20px]"
+            style={{ maxWidth: `min(579px, calc((100vh - 124px) * ${width} / ${height}))` }}
+          >
             <ExhibitionPoster src={item.image} alt={alt} width={width} height={height} />
           </div>
         </Container>
