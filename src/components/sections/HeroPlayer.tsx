@@ -6,7 +6,8 @@ import "./hero-player.css";
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 const FADE_SECONDS = 1.1;
-const VIDEO_SECONDS = 3;
+const FIRST_VIDEO_SECONDS = 3;
+const VIDEO_SECONDS = 4;
 
 function useReducedMotion() {
   return useSyncExternalStore(
@@ -64,10 +65,11 @@ export function HeroPlayer({ videos }: { videos: BannerVideo[] }) {
     const active = videoRefs.current[activeSlot];
     const nextSlot = 1 - activeSlot;
     const next = videoRefs.current[nextSlot];
-    // 3초마다 다음 영상으로 전환한다. 영상이 더 짧으면 끝나기 전에 전환한다.
+    // 첫 영상은 3초, 나머지는 4초 후 전환한다. 짧은 영상은 끝나기 전에 전환한다.
+    const displaySeconds = slots[activeSlot] === 0 ? FIRST_VIDEO_SECONDS : VIDEO_SECONDS;
     const transitionAt = active && Number.isFinite(active.duration)
-      ? Math.min(VIDEO_SECONDS, Math.max(0, active.duration - FADE_SECONDS))
-      : VIDEO_SECONDS;
+      ? Math.min(displaySeconds, Math.max(0, active.duration - FADE_SECONDS))
+      : displaySeconds;
     const ending = active && (active.ended || active.currentTime >= transitionAt);
     if (!ending || !next || next.readyState < 2) return;
 
@@ -83,7 +85,7 @@ export function HeroPlayer({ videos }: { videos: BannerVideo[] }) {
       // 브라우저가 transitionend를 보내지 않아도 재생이 멈추지 않도록 한다.
       transitionTimer.current = setTimeout(() => finishTransition(nextSlot), 1300);
     }).catch(() => { transitionInProgress.current = false; });
-  }, [activeSlot, finishTransition, videos.length]);
+  }, [activeSlot, finishTransition, slots, videos.length]);
 
   useEffect(() => {
     stoppedRef.current = stopped;
